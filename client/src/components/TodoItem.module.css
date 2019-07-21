@@ -1,0 +1,15 @@
+.item {
+    background: red;
+    width: 75%;
+
+    text-align: left;
+
+    /* display: flex;
+    flex-direction: column; */
+    /* justify-content: center; */
+    font-size: calc(10px + 2vmin);
+
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 1%;
+}
