@@ -23,9 +23,9 @@
 }
 
 .list {
-
     width: 100%;
-    background-color: white;
+    /* background-color: white; */
+    /* border: 1px; */
 }
 
 .listContainer {

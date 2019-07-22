@@ -11,12 +11,7 @@ import MenuIcon from '@material-ui/icons/FormatListBulleted';
 import AddIcon from '@material-ui/icons/AddCircleOutlined';
 
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import DeleteIcon from '@material-ui/icons/Delete';
+
 
 class TodoList extends React.Component {
 
@@ -97,13 +92,30 @@ class TodoList extends React.Component {
     console.log('[POSTED]', response);
   }
 
+  deleteButtonHandler = (index) => {
+    const { data } = this.state;
+    data.splice(index, 1)
+    this.setState({ data: data}, () => {
+      this.postData('http://localhost:8000/api/todo-list', {'data': data});
+    })
+  }
+
+  checkButtonHandler = (index, clicked) => {
+    if (clicked === 'listItem') {
+      const { data } = this.state;
+      data[index].completed = !data[index].completed;
+      this.setState({ data: data}, () => {
+        this.postData('http://localhost:8000/api/todo-list', {'data': data});
+      })
+    }
+  }
+
   render() {
 
     const { data } = this.state;
 
     return (
       <div>
-
         <Paper className={classes.root}>
           <IconButton className={classes.iconButton} disabled aria-label="Menu">
             <MenuIcon />
@@ -120,37 +132,27 @@ class TodoList extends React.Component {
             color="primary"
             className={classes.iconButton}
             aria-label="Add"
+            style={{color: '#1772B3'}}
             onClick={this.buttonClickHandler}>
             <AddIcon />
           </IconButton>
         </Paper>
 
         <div className={classes.listContainer}>
-        <List className={classes.list}>
-          {data.map((item , index) => {
-            const labelId = item.title;
+          <List className={classes.list}>
+            {data.map((item , index) => {
+              return (
+                <TodoItem
+                  key={index}
+                  index={index}
+                  title={item.title}
+                  completed={item.completed}
+                  deleteButtonHandler={this.deleteButtonHandler}
+                  checkButtonHandler={this.checkButtonHandler} />
+              );
+            })}
 
-            return (
-              <ListItem key={index} dense button>
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    // checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={item.title} />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="Delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
-        </List>
+          </List>
         </div>
 
       </div>

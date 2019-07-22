@@ -1,3 +1,17 @@
+.title {
+  width: 100%;
+  height: 100px;
+  color: white;
+  background: #3BAEFF;
+
+  margin-bottom: 10px;
+}
+
+.titleText {
+  margin-top: 0;
+  padding-top: 25px;
+}
+
 .list {
   display: inline;
   align-items: center;

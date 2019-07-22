@@ -7,9 +7,11 @@ function App() {
   return (
     <div className="App">
 
-      <h1>
-        Todo List
-      </h1>
+      <div className="title">
+        <h1 className="titleText">
+          Todo List
+        </h1>
+      </div>
 
       <div className="list">
         <TodoList />
