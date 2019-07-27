@@ -1,0 +1,22 @@
+{
+    "data": [
+      {
+        "title": "First item",
+        "description": "blank",
+        "creation_time": "blank",
+        "completed": false
+      },
+      {
+        "title": "This item has been completed",
+        "description": "blank",
+        "creation_time": "blank",
+        "completed": true
+      },
+      {
+        "title": "Feel free to delete this item",
+        "description": "blank",
+        "creation_time": "blank",
+        "completed": false
+      }
+    ]
+  }

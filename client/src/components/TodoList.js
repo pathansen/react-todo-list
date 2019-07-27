@@ -11,7 +11,9 @@ import MenuIcon from '@material-ui/icons/FormatListBulleted';
 import AddIcon from '@material-ui/icons/AddCircleOutlined';
 
 import List from '@material-ui/core/List';
+import demo from './demo.json'
 
+const DEMO = false;
 
 class TodoList extends React.Component {
 
@@ -21,10 +23,13 @@ class TodoList extends React.Component {
   }
 
   componentDidMount = async () => {
-    const resp = await fetch('http://localhost:8000/api/todo-list');
-    const data = await resp.json();
-    console.log({resp, });
-    this.setState({ data: data.data })
+    if (DEMO) {
+      this.setState({ data: demo.data })
+    } else {
+      const resp = await fetch('http://localhost:8000/api/todo-list');
+      const data = await resp.json();
+      this.setState({ data: data.data })
+    }
 
     document.addEventListener('keyup', this.handleKeyUp, false);
   }
@@ -46,7 +51,32 @@ class TodoList extends React.Component {
 
   handleKeyUp = (event) => {
     const { data, text } = this.state;
-    if (event.keyCode === 13) {
+
+    if (text !== '') {
+      if (event.keyCode === 13) {
+        const newItem = {
+          'title': text,
+          'description': 'blank',
+          'creation_time': 'blank',
+          'completed': false
+        }
+
+        data.push(newItem);
+        this.setState({
+          data: data,
+          text: ''
+        }, () => {
+          console.log('[POST]', data);
+          this.postData('http://localhost:8000/api/todo-list', {'data': data});
+        });
+      }
+    }
+  }
+
+  buttonClickHandler = (event) => {
+    const { data, text } = this.state;
+
+    if (text !== '') {
       const newItem = {
         'title': text,
         'description': 'blank',
@@ -65,31 +95,13 @@ class TodoList extends React.Component {
     }
   }
 
-  buttonClickHandler = (event) => {
-    const { data, text } = this.state;
-    const newItem = {
-      'title': text,
-      'description': 'blank',
-      'creation_time': 'blank',
-      'completed': false
-    }
-
-    data.push(newItem);
-    this.setState({
-      data: data,
-      text: ''
-    }, () => {
-      console.log('[POST]', data);
-      this.postData('http://localhost:8000/api/todo-list', {'data': data});
-    });
-  }
-
   postData = async (url, data) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-    console.log('[POSTED]', response);
+    if (!DEMO) {
+      await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+    }
   }
 
   deleteButtonHandler = (index) => {
@@ -108,6 +120,22 @@ class TodoList extends React.Component {
         this.postData('http://localhost:8000/api/todo-list', {'data': data});
       })
     }
+  }
+
+  getNumberItems = () => {
+    const { data } = this.state;
+    return data.length;
+  }
+
+  getNumberCompleted = () => {
+    const { data } = this.state;
+
+    let completed = 0;
+    for (let item of data) {
+      if (item.completed)
+        completed += 1;
+    }
+    return completed;
   }
 
   render() {
@@ -153,6 +181,10 @@ class TodoList extends React.Component {
             })}
 
           </List>
+        </div>
+
+        <div style={{color: '#1772B3'}}>
+          Completed {this.getNumberCompleted()} of {this.getNumberItems()}
         </div>
 
       </div>
