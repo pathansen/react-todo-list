@@ -37,7 +37,6 @@ const todoItem = (props) => {
             checked={completed}
             tabIndex={-1}
             disableRipple
-            // inputProps={{ 'aria-labelledby': labelId }}
             onClick={() => checkButtonHandler(index, 'check')} />
         </ListItemIcon>
         <ListItemText

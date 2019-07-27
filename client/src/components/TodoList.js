@@ -22,6 +22,10 @@ class TodoList extends React.Component {
     text: ''
   }
 
+  /**
+   * Get data when the component is created (either via HTTP or locally
+   * for demo).
+   */
   componentDidMount = async () => {
     if (DEMO) {
       this.setState({ data: demo.data })
@@ -34,10 +38,18 @@ class TodoList extends React.Component {
     document.addEventListener('keyup', this.handleKeyUp, false);
   }
 
+  /**
+   * Remove event listener when component is removed.
+   */
   componentWillUnmount = () => {
     document.removeEventListener('keyup', this.handleKeyUp, false);
   }
 
+  /**
+   * Bind changes to input field to state.
+   *
+   * @param {!ObjType} event Click event
+   */
   inputChangeHandler = (event) => {
     const currentString = event.target.value;
     const currentChars = currentString.split('');
@@ -49,6 +61,11 @@ class TodoList extends React.Component {
      })
   }
 
+  /**
+   * Capture `enter` key press to add new item.
+   *
+   * @param {!ObjType} event Button press event
+   */
   handleKeyUp = (event) => {
     const { data, text } = this.state;
 
@@ -73,6 +90,11 @@ class TodoList extends React.Component {
     }
   }
 
+  /**
+   * Create new item when `+` button pressed.
+   *
+   * @param {!ObjType} event Click event
+   */
   buttonClickHandler = (event) => {
     const { data, text } = this.state;
 
@@ -95,6 +117,12 @@ class TodoList extends React.Component {
     }
   }
 
+  /**
+   * POST data to server.
+   *
+   * @param {string} url URL to POST data to
+   * @param {JSON} data data to post to server
+   */
   postData = async (url, data) => {
     if (!DEMO) {
       await fetch(url, {
@@ -104,6 +132,11 @@ class TodoList extends React.Component {
     }
   }
 
+  /**
+   * Capture delete button press.
+   *
+   * @param {number} index index of item to be deleted
+   */
   deleteButtonHandler = (index) => {
     const { data } = this.state;
     data.splice(index, 1)
@@ -112,6 +145,12 @@ class TodoList extends React.Component {
     })
   }
 
+  /**
+   * Toggle completeness of item when clicked.
+   *
+   * @param {number} index index of item clicked
+   * @param {string} clicked name of item clicked
+   */
   checkButtonHandler = (index, clicked) => {
     if (clicked === 'listItem') {
       const { data } = this.state;
@@ -122,11 +161,21 @@ class TodoList extends React.Component {
     }
   }
 
+  /**
+   * Get number of items in the list
+   *
+   * @return {number} number of items in the list
+   */
   getNumberItems = () => {
     const { data } = this.state;
     return data.length;
   }
 
+  /**
+   * Get number of completed items in the list
+   *
+   * @return {number} number of completed items in the list
+   */
   getNumberCompleted = () => {
     const { data } = this.state;
 
@@ -144,6 +193,7 @@ class TodoList extends React.Component {
 
     return (
       <div>
+        {/* Input field and add button */}
         <Paper className={classes.root}>
           <IconButton className={classes.iconButton} disabled aria-label="Menu">
             <MenuIcon />
@@ -166,6 +216,7 @@ class TodoList extends React.Component {
           </IconButton>
         </Paper>
 
+        {/* List of items */}
         <div className={classes.listContainer}>
           <List className={classes.list}>
             {data.map((item , index) => {
@@ -183,6 +234,7 @@ class TodoList extends React.Component {
           </List>
         </div>
 
+        {/* Shows number of completed items */}
         <div style={{color: '#1772B3'}}>
           Completed {this.getNumberCompleted()} of {this.getNumberItems()}
         </div>

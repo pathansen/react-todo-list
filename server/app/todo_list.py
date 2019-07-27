@@ -6,9 +6,7 @@ import falcon
 class TodoList(object):
 
     def on_get(self, req, resp):
-        """
-        Get data from server to send to client.
-        """
+        """ Get data from server to send to client. """
 
         # Open JSON file holding todo list items
         data_file = os.path.join(os.getcwd(), 'data', 'data.json')
@@ -22,9 +20,7 @@ class TodoList(object):
         resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
-        """
-        Save data from client to server.
-        """
+        """ Save data from client to server. """
 
         # Decode response from string to JSON
         data = json.loads(req.stream.read())
