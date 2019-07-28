@@ -5,3 +5,6 @@
 __pycache__/
 server/data/*
 !server/data/.gitkeep
+
+# Build script
+build.py
