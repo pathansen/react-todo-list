@@ -13,7 +13,7 @@ import AddIcon from '@material-ui/icons/AddCircleOutlined';
 import List from '@material-ui/core/List';
 import demo from './demo.json'
 
-const DEMO = true;
+const DEMO = false;
 
 class TodoList extends React.Component {
 
