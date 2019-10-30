@@ -2,7 +2,7 @@ certifi==2019.6.16
 chardet==3.0.4
 colorama==0.4.1
 falcon==2.0.0
-httpie==1.0.2
+httpie==1.0.3
 idna==2.8
 pep8==1.7.1
 pycodestyle==2.5.0
